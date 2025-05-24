@@ -4,10 +4,7 @@ import com.scaler.BookMyShow.exceptions.SeatNotAvailableException;
 import com.scaler.BookMyShow.exceptions.ShowNotFoundException;
 import com.scaler.BookMyShow.exceptions.UserNotFoundException;
 import com.scaler.BookMyShow.models.*;
-import com.scaler.BookMyShow.repositories.ShowRepository;
-import com.scaler.BookMyShow.repositories.ShowSeatRepository;
-import com.scaler.BookMyShow.repositories.ShowSeatTypeRepository;
-import com.scaler.BookMyShow.repositories.UserRepository;
+import com.scaler.BookMyShow.repositories.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Isolation;
@@ -26,6 +23,11 @@ public class BookingService {
     private ShowSeatTypeRepository showSeatTypeRepository;
     @Autowired
     private UserRepository userRepository;
+
+    @Autowired
+    private PriceCalculationService priceCalculationService;
+    @Autowired
+    private BookingRepository bookingRepository;
 
     @Transactional(isolation = Isolation.SERIALIZABLE)
     public Booking bookMovie(Long userId, Long showId, List<Long> seatIds) throws UserNotFoundException, ShowNotFoundException, SeatNotAvailableException {
@@ -48,9 +50,13 @@ public class BookingService {
         Booking booking = new Booking();
         booking.setBookedBy(user);
         booking.setShowSeats(showSeats);
-        // TODO: Update the amount
-        booking.setAmount(0D);
+        booking.setAmount(priceCalculationService.getPrice(showSeats));
 
-        return booking;
+        booking.setBookingStatus(BookingStatus.PENDING);
+        // call payment service
+        // make payments
+        // update booking status
+
+        return bookingRepository.save(booking);
     }
 }
