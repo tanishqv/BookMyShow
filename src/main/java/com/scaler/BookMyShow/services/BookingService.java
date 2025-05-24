@@ -5,6 +5,7 @@ import com.scaler.BookMyShow.exceptions.ShowNotFoundException;
 import com.scaler.BookMyShow.exceptions.UserNotFoundException;
 import com.scaler.BookMyShow.models.*;
 import com.scaler.BookMyShow.repositories.*;
+import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Isolation;

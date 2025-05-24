@@ -4,6 +4,7 @@ import com.scaler.BookMyShow.models.Show;
 import com.scaler.BookMyShow.models.ShowSeat;
 import com.scaler.BookMyShow.models.ShowSeatType;
 import com.scaler.BookMyShow.repositories.ShowSeatTypeRepository;
+import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
